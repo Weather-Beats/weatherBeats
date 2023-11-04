@@ -52,7 +52,35 @@
     <!-- Link JS file -->
     <!-- <script src = "../static/songs.js"></script> -->
     <script>
+        // function to create an expandable list item with song info and lyrics
+        function createExpandableListItem(song) {
+            let expandableListItem = document.createElement('li');
+            expandableListItem.classList.add('expandable-list-item');
 
+            let songInfoDiv = document.createElement('div');
+            songInfoDiv.classList.add('song-info');
+            songInfoDiv.textContent = `Artist: ${song.artist_name}, Genre: ${song.genre}, Moods: ${song.moods}`;
+
+            let lyricsDiv = document.createElement('div');
+            lyricsDiv.classList.add('lyrics');
+            lyricsDiv.textContent = song.lyrics;
+            lyricsDiv.style.display = 'none';
+
+            expandableListItem.appendChild(songInfoDiv);
+            expandableListItem.appendChild(lyricsDiv);
+
+            expandableListItem.addEventListener('click', function () {
+                if (lyricsDiv.style.display === 'none') {
+                    lyricsDiv.style.display = 'block';
+                } else {
+                    lyricsDiv.style.display = 'none';
+                }
+            });
+
+            return expandableListItem;
+        }
+
+        
 
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
@@ -91,17 +119,14 @@
                         }
                     )
                     .then (
-                        function(data) {
-                            console.log(data);
+                        function displaySongs(data) {
+                            let songList = data['songs'];
+                            let contentList = document.querySelector('.content-list');
 
-                            let song_list = data['songs'];
-
-                            for (let song of song_list) {
-                                let song_item = document.createElement('li');
-                                song_item.textContent = song.song_name;
-                                document.querySelector('.content-list').appendChild(song_item);
+                            for (let song of songList) {
+                                let expandableListItem = createExpandableListItem(song);
+                                contentList.appendChild(expandableListItem);
                             }
-
                         }
                     )
                 }
