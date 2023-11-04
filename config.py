@@ -1,16 +1,16 @@
 
 import os
+import ssl
 from dotenv import load_dotenv
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine
 
 from flask import Flask
-from pyngrok import ngrok
+from pyngrok import ngrok, conf, installer
 
 import pandas as pd
 
 # Refer to envschema.txt for the environment variables
 load_dotenv()
-
 
 class SQLServer:
     '''
@@ -22,7 +22,7 @@ class SQLServer:
     def __init__(self, db_name='public'):
         self.username = os.getenv('DB_USERNAME')
         self.password = os.getenv('DB_PASSWORD')
-        self.host = 'db.ipeirotis.org'
+        self.host = os.getenv('DB_HOST')
         self.db_name = db_name
         self.connect()
 
@@ -57,6 +57,15 @@ class FlaskSetup:
     '''
     def __init__(self):
         self.port = os.getenv('FLASK_PORT')
+
+        # Handle ngrok installation errors
+        pyngrok_config = conf.get_default()
+        if not os.path.exists(pyngrok_config.ngrok_path):
+            myssl = ssl.create_default_context();
+            myssl.check_hostname=False
+            myssl.verify_mode=ssl.CERT_NONE
+            installer.install_ngrok(pyngrok_config.ngrok_path, context=myssl)
+
         self.ngrok_auth_token = os.getenv('NGROK_AUTH_TOKEN')
         ngrok.set_auth_token(self.ngrok_auth_token)
 

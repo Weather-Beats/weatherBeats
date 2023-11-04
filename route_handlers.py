@@ -3,11 +3,12 @@
 from config import db, flask_app, app
 from flask import render_template, request, jsonify
 
+# renders the homepage for the website
 @app.route("/", methods=["GET"])
 def home():
     return render_template("index.html")
 
-
+# render the list of songs after the user has selected a location and the mood is extracted
 @app.route("/song.html", methods=["GET"])
 def song():
     return render_template("song.html")
@@ -15,6 +16,9 @@ def song():
 
 @app.route("/moodFromWeatherAPI", methods=["GET"])
 def moodFromWeatherAPI():
+    """
+    Returns the mood of the location provided by the user
+    """
     
     # SQL Variables
     table_name = 'weatherBeats_weather_w_location'
