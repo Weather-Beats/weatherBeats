@@ -2,7 +2,7 @@
 import os
 import ssl
 from dotenv import load_dotenv
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 
 from flask import Flask
 from pyngrok import ngrok, conf, installer
@@ -40,7 +40,7 @@ class SQLServer:
     def query(self, sql):
 
         with self.engine.connect() as conn:
-            df = pd.read_sql(sql, conn)
+            df = pd.read_sql(text(sql), conn)
 
         result = df.to_dict(orient='records')
 

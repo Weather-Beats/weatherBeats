@@ -68,15 +68,42 @@
             )
             .then (
                 function(data) {
-                    console.log(data);
+                    // console.log(data);
 
-                    let mood_list = data['mood'];
+                    // let mood_list = data['mood'];
 
-                    for (let mood of mood_list) {
-                        let mood_item = document.createElement('li');
-                        mood_item.textContent = mood.mood;
-                        document.querySelector('.content-list').appendChild(mood_item);
-                    }
+                    // for (let mood of mood_list) {
+                    //     let mood_item = document.createElement('li');
+                    //     mood_item.textContent = mood.mood;
+                    //     document.querySelector('.content-list').appendChild(mood_item);
+                    // }
+
+                    let mood = data['mood'];
+                    // list of mood to a string
+                    mood = mood.join(' ');
+
+                    console.log(mood);
+
+                    fetch('/songsFromMoodAPI?moods=' + mood.trim())
+                    .then(
+                        function(resp) {
+                            return resp.json();
+                        }
+                    )
+                    .then (
+                        function(data) {
+                            console.log(data);
+
+                            let song_list = data['songs'];
+
+                            for (let song of song_list) {
+                                let song_item = document.createElement('li');
+                                song_item.textContent = song.song_name;
+                                document.querySelector('.content-list').appendChild(song_item);
+                            }
+
+                        }
+                    )
                 }
             )
 

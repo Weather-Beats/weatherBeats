@@ -42,13 +42,71 @@ def moodFromWeatherAPI():
     query_resp = db.query(sql)
     print("Mood:\n", query_resp, "\n")
 
+    # get the mood from the query response
+    query_resp = query_resp[0]['mood']
+    moods = query_resp.split(',')
+    mood_list = [mood.strip() for mood in moods]
+
     result = {
         'location': param,
-        'mood': query_resp
+        'mood': mood_list
     }
+
+    print("Result:\n", result, "\n")
 
     return jsonify(result)
 
+@app.route("/songsFromMoodAPI", methods=["GET"])
+def songsFromMood():
+    """
+    Gets the list of a moods and returns a list of songs
+    """
+
+    # SQL Variables
+    table_name = 'weatherBeats_songToMood'
+
+    lyrics_table_name = 'weatherBeats_Spotify_w_lyrics'
+
+    mood_list = request.args.get('moods').split(' ')
+    if len(mood_list) > 1:
+        param = tuple(mood_list)
+    else:
+        param = f"('{mood_list[0]}')"
+
+    # Check if mood was provided
+    if (len(param) == 0):
+        return jsonify({'error': 'No mood provided'})
+    
+    # Get songs from API
+    sql = f'''
+            SELECT s.song_name, s.artist_name, s.genre, m.lyrics,
+                    a.moods AS moods
+            FROM {table_name} s
+            JOIN
+                (
+                    SELECT
+                        song_name,
+                        artist_name,
+                        GROUP_CONCAT(DISTINCT mood, '') AS moods
+                    FROM
+                        {table_name}
+                    GROUP BY
+                        song_name, artist_name
+                ) a
+            ON
+                s.song_name = a.song_name AND s.artist_name = a.artist_name
+            JOIN {lyrics_table_name} m ON s.song_name = m.song_name AND s.artist_name = m.artist_name
+            WHERE s.mood IN {param}
+            GROUP BY s.song_name, s.artist_name, s.genre, m.lyrics
+            '''   
+    
+    query_resp = db.query(sql)
+
+    result = {
+        'songs': query_resp
+    }
+
+    return jsonify(result)
 
 
 
