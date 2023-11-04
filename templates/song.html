@@ -62,7 +62,26 @@
 
             let songInfoDiv = document.createElement('div');
             songInfoDiv.classList.add('song-info');
-            songInfoDiv.textContent = `Artist: ${song.artist_name}, Genre: ${song.genre}, Moods: ${song.moods}`;
+            
+            // Song Title as H1
+            let songTitle = document.createElement('h3');
+            songTitle.textContent = song.song_name;
+            songInfoDiv.appendChild(songTitle);
+
+            // Song Artist, Genre, Moods as P
+            let artistName = document.createElement('h4');
+            artistName.textContent = song.artist_name;
+            songInfoDiv.appendChild(artistName);
+
+            let genre = document.createElement('h4');
+            genre.textContent = song.genre;
+            songInfoDiv.appendChild(genre);
+
+            let moods = document.createElement('h4');
+            moods.textContent = song.moods;
+            songInfoDiv.appendChild(moods);
+
+            // songInfoDiv.textContent = `Artist: ${song.artist_name}, Genre: ${song.genre}, Moods: ${song.moods}`;
 
             let lyricsDiv = document.createElement('div');
             lyricsDiv.classList.add('uri');
