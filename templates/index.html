@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,15 +12,21 @@
 </head>
 <body>
 
+    <!-- Main container contains: (1) Image, (2a) Paragraph (placeholder), (2b) Form, (2c) Visualization (placehoder div)-->
     <div class="container">
 
+        <!-- Image -->
         <div class="img">
             <img src="https://thumbs.dreamstime.com/b/vector-valid-grunge-stamp-seal-tick-inside-green-valid-watermark-grunge-texture-round-rubber-stamp-imprint-valid-139450873.jpg" alt="logo" width="100">
         </div>
 
+
         <div>
+            
+            <!-- Paragraph -->
             <p></p>
 
+            <!-- Form -->
             <form method = 'GET' action = 'song.html'>
 
                 <label for = ''>  </label>
@@ -28,11 +35,40 @@
                 <input type = 'submit' value = 'Submit'>
                 
             </form>
+
+            <!-- Placeholder for visualization -->
+            <div align="center">
+                <div id="loading-viz">
+                  <br>
+                  Loading Visualization ...
+                  <br>
+                  <div class="spinner-border text-primary" role="status"></div>
+                </div>
+                <img id="viz_placeholder" class="center-block" />
+              </div>
             
         </div>
 
 
     </div>
+
+    <!-- This script fetches image for visualization and replaces the placeholder div -->
+    <script>
+
+        fetch("/moodVizAPI")
+        .then(function(response){
+                return response.json();
+            })
+        .then(function(data){
+
+            let map_image_html_tag = document.querySelector("#viz_placeholder");
+            map_image_html_tag.src = 'data:image/png;base64,' + data.image;
+
+            document.getElementById("loading-viz").remove();
+        });
+
+    </script>
     
 </body>
 </html>
+

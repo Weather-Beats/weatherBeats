@@ -1,5 +1,5 @@
 
-
+# Importing custom modules and libraries
 from config import db, flask_app, app
 from flask import render_template, request, jsonify
 
@@ -8,12 +8,24 @@ from flask import render_template, request, jsonify
 def home():
     return render_template("index.html")
 
+
 # render the list of songs after the user has selected a location and the mood is extracted
 @app.route("/song.html", methods=["GET"])
 def song():
     return render_template("song.html")
 
 
+# plot the number of songs with a particular mood
+@app.route('/moodVizAPI',  methods=['GET'])
+def moodViz():
+    # the image is pre-generated and stored in the config.py file
+    results = db.image
+
+    # JSON-ified response
+    return jsonify(results)
+
+
+# Route to get the mood of the location provided by the user
 @app.route("/moodFromWeatherAPI", methods=["GET"])
 def moodFromWeatherAPI():
     """
@@ -23,7 +35,7 @@ def moodFromWeatherAPI():
     # SQL Variables
     table_name = 'weatherBeats_weather_w_location'
 
-    
+    # Get location from query
     param = str(request.args.get('location'))
     print("\nCity: ", param)
 
@@ -39,6 +51,7 @@ def moodFromWeatherAPI():
 
         '''
 
+    # Query the database
     query_resp = db.query(sql)
     print("Mood:\n", query_resp, "\n")
 
@@ -47,15 +60,19 @@ def moodFromWeatherAPI():
     moods = query_resp.split(',')
     mood_list = [mood.strip() for mood in moods]
 
+    # JSON-ified response
     result = {
         'location': param,
         'mood': mood_list
     }
 
+    # Logging
     print("Result:\n", result, "\n")
 
     return jsonify(result)
 
+
+# Route to get the songs from the mood retreived from 'location name'
 @app.route("/songsFromMoodAPI", methods=["GET"])
 def songsFromMood():
     """
@@ -65,7 +82,7 @@ def songsFromMood():
     # SQL Variables
     table_name = 'weatherBeats_songToMood'
 
-    lyrics_table_name = 'weatherBeats_Spotify_w_lyrics'
+    lyrics_table_name = 'weatherBeats_spotify_lyrics_url'
 
     mood_list = request.args.get('moods').split(' ')
     if len(mood_list) > 1:
@@ -79,7 +96,7 @@ def songsFromMood():
     
     # Get songs from API
     sql = f'''
-            SELECT s.song_name, s.artist_name, s.genre, m.lyrics,
+            SELECT s.song_name, s.artist_name, s.genre, m.lyrics, m.uri,
                     a.moods AS moods
             FROM {table_name} s
             JOIN
@@ -97,7 +114,7 @@ def songsFromMood():
                 s.song_name = a.song_name AND s.artist_name = a.artist_name
             JOIN {lyrics_table_name} m ON s.song_name = m.song_name AND s.artist_name = m.artist_name
             WHERE s.mood IN {param}
-            GROUP BY s.song_name, s.artist_name, s.genre, m.lyrics
+            GROUP BY s.song_name, s.artist_name, s.genre, m.lyrics, m.uri
             '''   
     
     query_resp = db.query(sql)
@@ -110,11 +127,9 @@ def songsFromMood():
 
 
 
+# ---------------------------------------------------------------
 
-
-
-
+# Run the Flask app
 app.run(use_reloader=False, port=flask_app.port)
 
-
-
+# ---------------------------------------------------------------

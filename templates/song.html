@@ -8,6 +8,7 @@
 </head>
 <body>
     
+    <!-- Main container contains: (1) Form, (2) Header Text, (3) Header Image, (4) Song Table (placeholder for now) -->
     <div class="container">
 
         <div class="form">
@@ -30,7 +31,7 @@
 
             <div class="mood-content">
                 <h1>Lorem ipsum</h1>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. </p>
+                <p>Song suggestions based on the moods! </p>
             </div>
 
         </div>
@@ -39,7 +40,7 @@
         <div class="content">
 
             <ul class = "content-list">
-                <li class = "list-item"> Song Name: </li>
+                <!-- Placeholder for all the spotify data -->
             </ul>
 
         </div>
@@ -51,8 +52,10 @@
 
     <!-- Link JS file -->
     <!-- <script src = "../static/songs.js"></script> -->
+    
     <script>
-        // function to create an expandable list item with song info and lyrics
+
+        // helper function to create an expandable list item with song info and lyrics
         function createExpandableListItem(song) {
             let expandableListItem = document.createElement('li');
             expandableListItem.classList.add('expandable-list-item');
@@ -62,8 +65,12 @@
             songInfoDiv.textContent = `Artist: ${song.artist_name}, Genre: ${song.genre}, Moods: ${song.moods}`;
 
             let lyricsDiv = document.createElement('div');
-            lyricsDiv.classList.add('lyrics');
-            lyricsDiv.textContent = song.lyrics;
+            lyricsDiv.classList.add('uri');
+
+            let spotifyLink = document.createElement('a');
+            spotifyLink.href = song.uri;
+            spotifyLink.textContent = 'Listen on Spotify';
+            lyricsDiv.appendChild(spotifyLink);
             lyricsDiv.style.display = 'none';
 
             expandableListItem.appendChild(songInfoDiv);
@@ -81,11 +88,12 @@
         }
 
         
-
+        // get the location parameter from the URL
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const location_param = urlParams.get('location');
 
+        // if location parameter exists, fetch the mood and song data
         if (location_param) {
 
             fetch('/moodFromWeatherAPI?location=' + location_param)
@@ -107,6 +115,10 @@
                     // }
 
                     let mood = data['mood'];
+                    
+                    let mood_header = document.querySelector('.mood-content h1');
+                    mood_header.textContent = mood.join(', ');
+
                     // list of mood to a string
                     mood = mood.join(' ');
 
