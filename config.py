@@ -1,4 +1,5 @@
 
+# import relevant libraries
 import os
 import ssl
 from dotenv import load_dotenv
