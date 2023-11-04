@@ -42,9 +42,9 @@ class SQLServer:
         with self.engine.connect() as conn:
             df = pd.read_sql(sql, conn)
 
-        df.to_dict(orient='records')
+        result = df.to_dict(orient='records')
 
-        return df
+        return result
 
 
 
@@ -70,3 +70,10 @@ class FlaskSetup:
         print(f" * ngrok tunnel '{public_url}' -> 'http://127.0.0.1:{self.port}'")
 
         return app
+
+
+
+db = SQLServer()
+flask_app = FlaskSetup()
+app = flask_app.connect()
+

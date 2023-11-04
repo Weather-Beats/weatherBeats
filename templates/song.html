@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherBeats</title>
+</head>
+<body>
+    
+    <div class="container">
+
+        <div class="form">
+            <form method = 'GET' action = 'song.html'>
+
+                <label for = ''>  </label>
+                <input type = 'text' name = 'location' value = '' placeholder = 'Enter a city name'>
+            
+                <input type = 'submit' value = 'Submit'>
+                
+            </form>
+        </div>
+
+        
+        <div class="header">
+
+            <div class="mood-image">
+                <img src="https://thumbs.dreamstime.com/b/vector-valid-grunge-stamp-seal-tick-inside-green-valid-watermark-grunge-texture-round-rubber-stamp-imprint-valid-139450873.jpg" alt="logo" width="100">
+            </div>
+
+            <div class="mood-content">
+                <h1>Lorem ipsum</h1>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. </p>
+            </div>
+
+        </div>
+
+
+        <div class="content">
+
+            <ul class = "content-list">
+                <li class = "list-item"> Song Name: </li>
+            </ul>
+
+        </div>
+
+
+
+    </div>
+
+
+    <!-- Link JS file -->
+    <!-- <script src = "../static/songs.js"></script> -->
+    <script>
+
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const location_param = urlParams.get('location');
+
+        if (location_param) {
+
+            fetch('/moodFromWeatherAPI?location=' + location_param)
+            .then(
+                function(resp) {
+                    return resp.json();
+                }
+            )
+            .then (
+                function(data) {
+                    console.log(data);
+
+                    let mood_list = data['mood'];
+
+                    for (let mood of mood_list) {
+                        let mood_item = document.createElement('li');
+                        mood_item.textContent = mood.mood;
+                        document.querySelector('.content-list').appendChild(mood_item);
+                    }
+                }
+            )
+
+        }
+
+
+    </script>
+
+</body>
+</html>
+
