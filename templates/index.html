@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,11 +10,32 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 
+    <style>
+        body {
+            background: linear-gradient(to bottom, #e0ffe0, #57C64D);
+            color: #FFFFFF;
+        }
+
+        .container {
+            padding: 50px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            background-color: #333333;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
 </head>
 <body>
 
     <!-- Main container contains: (1) Image, (2a) Paragraph (placeholder), (2b) Form, (2c) Visualization (placehoder div)-->
-    <div class="container">
+    <div class="container text-center">
 
         <!-- Image -->
         <div class="img">
@@ -62,27 +82,26 @@
               </div>
             
         </div>
-
-
     </div>
 
-    <!-- This script fetches image for visualization and replaces the placeholder div -->
-    <script>
+    <div class="footer">
+        <div class="container">
+            <p>&copy; WeatherBeats | Team Members: Sarthak Prasad Malla, Samyam Lamichhanne, Laura Stocksdale, Tengis Temuulen</p>
+        </div>
+    </div>
 
+    <!-- This script fetches an image for visualization and replaces the placeholder div -->
+    <script>
         fetch("/moodVizAPI")
-        .then(function(response){
+            .then(function(response) {
                 return response.json();
             })
-        .then(function(data){
-
-            let map_image_html_tag = document.querySelector("#viz_placeholder");
-            map_image_html_tag.src = 'data:image/png;base64,' + data.image;
-
-            document.getElementById("loading-viz").remove();
-        });
-
+            .then(function(data) {
+                let map_image_html_tag = document.querySelector("#viz_placeholder");
+                map_image_html_tag.src = 'data:image/png;base64,' + data.image;
+                document.getElementById("loading-viz").remove();
+            });
     </script>
-    
+
 </body>
 </html>
-
