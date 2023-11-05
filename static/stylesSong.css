@@ -6,24 +6,20 @@ body {
     width: 100%;
 }
 
-.mood-image{
-    text-align: center;
-    width: 150 px;
-    height: auto;
-}
-
 .container{
     font-family: 'AvenirNext-Medium';
 }
 
-.mood-content{
+#playlist-title{
     font-family: 'AvenirNext-Bold';
-    text-align: center;
-
+    margin: 0;
+    margin-top: 2rem;
+    padding: 0;
 }
-
-#playlist{
-    font-family: 'AvenirNext-Bold';
+#playlist-title p {
+    font-size: 24px;
+    padding: 0;
+    margin: 0;
 }
 
 /* Tengis Stylings */
@@ -42,13 +38,33 @@ body {
     display: flex;
     justify-content: space-between;
 }
+
+/* Hero of the Page */
+.hero-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+.mood-image {
+    width: 50%;
+    height: auto;
+}
 .mood-image img {
-    max-width: 100px;
+    width: 70%;
+    height: auto;
+
+    border-radius: 5px;
+
+    filter: drop-shadow(12px 12px 5px);
 }
 .mood-content {
-    text-align: center;
+    text-align: start;
 }
+
 .content {
+    margin-top: 3px;
+    padding-top: 0;
     padding: 20px;
 }
 .expandable-list-item {
