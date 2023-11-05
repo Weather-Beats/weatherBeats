@@ -9,7 +9,7 @@
     integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <style>
         body {
-            background:linear-gradient(to bottom, #e0ffe0, #57C64D);
+            background: linear-gradient(to bottom, #CDFAD5, #57C64D);
             color: #000; /* Black text */
         }
         .container {
@@ -32,7 +32,19 @@
             padding: 20px;
         }
         .expandable-list-item {
+            padding-top: 10px;
             cursor: pointer;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            height: 280px;
+            width: 330px;
+            color: black; /* Text color for content within cells */
+            background-color: #FFCF96 ;
+            font-size: 18px;
+        }
+        .song-info h4 {
+            font-size: 24px; /* Adjust the font size as needed */
         }
         .uri {
             display: none;
@@ -41,8 +53,29 @@
             list-style: none; /* Remove bullets from <ul> */
             padding: 0; /* Remove default padding */
         }
+        .content-list .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px; /* Add negative margin to row */
+        }
+        .content-list .col {
+            flex: 0 0 25%; /* Set column width to 25% (4 columns in a row) */
+            padding: 0 15px; /* Adjust padding for columns */
+        }
         .content-list li:hover {
-            background-color: #c5ffc5; /* Light gray background on hover */
+            background-color: #FF8080; /* Slightly darker green on hover */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-left: -80px;
+        }
+            /* Style for table cells (td) */
+        td {
+            padding: 10px; /* Adjust the padding as needed */
+            margin: 0; /* Remove margin */
+            vertical-align: top; /* Align cell content to the top */
+            width: 25%; /* Each cell takes 25% of the table width for 4 columns */
         }
     </style>
 </head>
@@ -67,9 +100,10 @@
         </div>
         <!-- Content -->
         <div class="content mt-5">
-            <ul class="list-group content-list">
-                <!-- Placeholder for all the Spotify data -->
-            </ul>
+            <div class="list-group content-list">
+                <!-- Placeholder for all the Spotify data in a table -->
+                
+            </div>
         </div>
     </div>
 
@@ -88,20 +122,20 @@
             
             // Song Title as H1
             let songTitle = document.createElement('h3');
-            songTitle.textContent = song.song_name;
+            songTitle.innerHTML = '<span>Title:</span> ' + song.song_name;
             songInfoDiv.appendChild(songTitle);
 
             // Song Artist, Genre, Moods as P
             let artistName = document.createElement('h4');
-            artistName.textContent = song.artist_name;
+            artistName.innerHTML = '<span>Artist:</span> ' + song.artist_name;
             songInfoDiv.appendChild(artistName);
 
             let genre = document.createElement('h4');
-            genre.textContent = song.genre;
+            genre.innerHTML = '<span>Genre:</span> ' + song.genre;
             songInfoDiv.appendChild(genre);
 
             let moods = document.createElement('h4');
-            moods.textContent = song.moods;
+            moods.innerHTML = '<span>Mood:</span> ' + song.moods;
             songInfoDiv.appendChild(moods);
 
             // songInfoDiv.textContent = `Artist: ${song.artist_name}, Genre: ${song.genre}, Moods: ${song.moods}`;
@@ -176,10 +210,22 @@
                         function displaySongs(data) {
                             let songList = data['songs'];
                             let contentList = document.querySelector('.content-list');
+                            const table = document.createElement('table');
+                            contentList.appendChild(table);
 
+                            let cellCounter = 0;
+                            let currentRow;
                             for (let song of songList) {
+                                if (cellCounter % 4 === 0) {
+                                            currentRow = document.createElement('tr');
+                                            table.appendChild(currentRow);
+                                        }
+                                const cell = document.createElement('td');
                                 let expandableListItem = createExpandableListItem(song);
-                                contentList.appendChild(expandableListItem);
+                                cell.appendChild(expandableListItem);
+                                currentRow.appendChild(cell);
+
+                                cellCounter++;
                             }
                         }
                     )
