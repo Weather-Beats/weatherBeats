@@ -1,0 +1,40 @@
+@font-face
+{
+    font-family: 'AvenirNext-Bold';
+    src: url('fonts/AvenirNext-Bold.otf');
+    /*src: url('../css/fonts/Avenir/Avenir-Book.otf');*/
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face
+{
+    font-family: 'AvenirNext-Medium';
+    src: url('fonts/AvenirNext-Medium.otf');
+    /*src: url('../css/fonts/Avenir/Avenir-Book.otf');*/
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+.mood-image{
+    text-align: center;
+    width: 150 px;
+    height: auto;
+}
+
+.container{
+    font-family: 'AvenirNext-Medium';
+
+}
+
+.mood-content{
+
+    font-family: 'AvenirNext-Bold';
+    text-align: center;
+
+}
+
+#playlist{
+    font-family: 'AvenirNext-Bold';
+}
