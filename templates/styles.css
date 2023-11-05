@@ -1,0 +1,43 @@
+@font-face
+{
+    font-family: 'AvenirNext-Bold';
+    src: url('fonts/AvenirNext-Bold.otf');
+    /*src: url('../css/fonts/Avenir/Avenir-Book.otf');*/
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face
+{
+    font-family: 'AvenirNext-Medium';
+    src: url('fonts/AvenirNext-Medium.otf');
+    /*src: url('../css/fonts/Avenir/Avenir-Book.otf');*/
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+#instructions{
+
+    text-align: center;
+    font-family: 'AvenirNext-Medium'
+}
+
+#titleName{
+    text-align: center;
+    color: #B8E8FC;
+    font-size: 700 px;
+    font-family: 'AvenirNext-Bold', sans-serif;
+
+}
+
+.img{
+    text-align: center;
+    width: 250 px;
+    height: auto;
+}
+
+#input{
+    text-align: center;
+    font-family: 'AvenirNext-Medium'
+}
