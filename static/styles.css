@@ -1,19 +1,8 @@
-@font-face
-{
-    font-family: 'AvenirNext-Bold';
-    src: url('fonts/AvenirNext-Bold.otf');
-    /*src: url('../css/fonts/Avenir/Avenir-Book.otf');*/
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face
-{
-    font-family: 'AvenirNext-Medium';
-    src: url('fonts/AvenirNext-Medium.otf');
-    /*src: url('../css/fonts/Avenir/Avenir-Book.otf');*/
-    font-weight: normal;
-    font-style: normal;
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100%;
 }
 
 
@@ -40,4 +29,20 @@
 #input{
     text-align: center;
     font-family: 'AvenirNext-Medium'
+}
+
+/* Tengis stylings */
+.container {
+    padding: 50px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.footer {
+    background-color: #333333;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 10px 0;
 }

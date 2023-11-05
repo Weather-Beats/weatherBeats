@@ -1,21 +1,10 @@
-@font-face
-{
-    font-family: 'AvenirNext-Bold';
-    src: url('fonts/AvenirNext-Bold.otf');
-    /*src: url('../css/fonts/Avenir/Avenir-Book.otf');*/
-    font-weight: normal;
-    font-style: normal;
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    height: fit-content;
+    width: 100%;
 }
-
-@font-face
-{
-    font-family: 'AvenirNext-Medium';
-    src: url('fonts/AvenirNext-Medium.otf');
-    /*src: url('../css/fonts/Avenir/Avenir-Book.otf');*/
-    font-weight: normal;
-    font-style: normal;
-}
-
 
 .mood-image{
     text-align: center;
@@ -25,11 +14,9 @@
 
 .container{
     font-family: 'AvenirNext-Medium';
-
 }
 
 .mood-content{
-
     font-family: 'AvenirNext-Bold';
     text-align: center;
 
@@ -37,4 +24,89 @@
 
 #playlist{
     font-family: 'AvenirNext-Bold';
+}
+
+/* Tengis Stylings */
+body {
+    background: linear-gradient(to bottom, #CDFAD5, #57C64D);
+    background-repeat: no-repeat;
+    color: #000; /* Black text */
+}
+.container {
+    padding: 20px;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+.mood-image img {
+    max-width: 100px;
+}
+.mood-content {
+    text-align: center;
+}
+.content {
+    padding: 20px;
+}
+.expandable-list-item {
+    cursor: pointer;
+    border-radius: 5px;
+    height: 280px;
+    width: 330px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: black; /* Text color for content within cells */
+    background-color: #FFCF96 ;
+    font-size: 18px;
+}
+.song-info h3 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 22px; /* Adjust the font size as needed */
+    padding: 0;
+
+}
+.song-info h4 {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px; /* Adjust the font size as needed */
+    padding: 0;
+}
+.uri {
+    display: none;
+}
+.content-list {
+    list-style: none; /* Remove bullets from <ul> */
+    padding: 0; /* Remove default padding */
+}
+.content-list .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 -15px; /* Add negative margin to row */
+}
+.content-list .col {
+    flex: 0 0 25%; /* Set column width to 25% (4 columns in a row) */
+    padding: 0 15px; /* Adjust padding for columns */
+}
+.content-list li:hover {
+    background-color: #FF8080; /* Slightly darker green on hover */
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-left: -80px;
+}
+    /* Style for table cells (td) */
+td {
+    padding: 10px; /* Adjust the padding as needed */
+    margin: 0; /* Remove margin */
+    vertical-align: top; /* Align cell content to the top */
+    width: 25%; /* Each cell takes 25% of the table width for 4 columns */
 }
