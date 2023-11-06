@@ -10,6 +10,7 @@ from pyngrok import ngrok, conf, installer
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 import base64
 from io import BytesIO
@@ -69,20 +70,45 @@ class SQLServer:
     
     # Get the image
     # Access the image using self.image
+    # def get_image(self, sql):
+    #     mood_count = self.query(sql, img=True)
+
+    #     fig, ax = plt.subplots()
+
+    #     # Top 10 mood_count plot -> top 10 retreived from SQL query
+    #     ax = mood_count.sort_values('mood_count').plot(kind='barh', x='mood', y='mood_count', rot=0, color='green', ax=ax)
+
+    #     # Label the x and y axes
+    #     ax.set_xlabel("Count")
+    #     ax.set_ylabel("Number of Songs")
+
+    #     buf = BytesIO()
+    #     fig.savefig(buf, format="png")
+    #     data = base64.b64encode(buf.getbuffer()).decode("ascii")
+
+    #     # Response - as dictionary
+    #     results = {"image": data}
+
+    #     return results
+
     def get_image(self, sql):
         mood_count = self.query(sql, img=True)
 
-        fig, ax = plt.subplots()
+        # Create a red background for the plot
+        sns.set_style("darkgrid")
+        plt.figure(figsize=(15, 8))
 
-        # Top 10 mood_count plot -> top 10 retreived from SQL query
-        ax = mood_count.sort_values('mood_count').plot(kind='barh', x='mood', y='mood_count', rot=0, color='green', ax=ax)
+        # Top 10 mood_count plot -> top 10 retrieved from SQL query
+        ax = sns.barplot(data=mood_count, x='mood_count', y='mood', color='#1EB2F7')
 
         # Label the x and y axes
-        ax.set_xlabel("Count")
-        ax.set_ylabel("Number of Songs")
+        ax.set_ylabel("Count", fontsize=19)
+        ax.set_xlabel("Number of Songs", fontsize=19)
+        ax.tick_params(axis='both', labelsize=16)
 
+        # Save the plot as an image
         buf = BytesIO()
-        fig.savefig(buf, format="png")
+        plt.savefig(buf, format="png")
         data = base64.b64encode(buf.getbuffer()).decode("ascii")
 
         # Response - as dictionary
