@@ -67,36 +67,14 @@ class SQLServer:
             result = df
 
         return result
-    
-    # Get the image
-    # Access the image using self.image
-    # def get_image(self, sql):
-    #     mood_count = self.query(sql, img=True)
-
-    #     fig, ax = plt.subplots()
-
-    #     # Top 10 mood_count plot -> top 10 retreived from SQL query
-    #     ax = mood_count.sort_values('mood_count').plot(kind='barh', x='mood', y='mood_count', rot=0, color='green', ax=ax)
-
-    #     # Label the x and y axes
-    #     ax.set_xlabel("Count")
-    #     ax.set_ylabel("Number of Songs")
-
-    #     buf = BytesIO()
-    #     fig.savefig(buf, format="png")
-    #     data = base64.b64encode(buf.getbuffer()).decode("ascii")
-
-    #     # Response - as dictionary
-    #     results = {"image": data}
-
-    #     return results
+        
 
     def get_image(self, sql):
         mood_count = self.query(sql, img=True)
 
         # Create a red background for the plot
         sns.set_style("darkgrid")
-        plt.figure(figsize=(15, 8))
+        plt.figure(figsize=(20, 12))
 
         # Top 10 mood_count plot -> top 10 retrieved from SQL query
         ax = sns.barplot(data=mood_count, x='mood_count', y='mood', color='#1EB2F7')
