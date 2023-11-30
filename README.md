@@ -46,7 +46,7 @@ NGROK_AUTH_TOKEN='yourtoken'
 
 Run the following script in terminal:
 ```
-python main.py
+python route_handlers.py
 ```
 This will start the server on port `you specified`. Open a browser and go to localhost:5000 to use the application
 
