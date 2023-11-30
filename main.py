@@ -1,7 +1,6 @@
-# Laura's Branch
 
 # Importing custom modules and libraries
-from config import db, flask_app, app
+from config import db, flask_app, app, weather_app, openai_app
 from flask import render_template, request, jsonify
 import requests
 from openai import OpenAI
@@ -139,6 +138,7 @@ def latlongFromWeatherAPI():
     """
 
     # SQL Variables
+    # This table has cityname, and their latitude and longitude
     table_name = 'weatherBeats_locations'
 
     # Get location from query
@@ -163,11 +163,14 @@ def latlongFromWeatherAPI():
 
     result = get_weather_data(query_resp[0]["latitude"],
                               query_resp[0]["longtitude"],
-                              "9de1352a008a66576f168d7bb8e1b7dc")
+                              weather_app.api_key)
 
-    #print("Result:\n", result, "\n")
+    print("Result:\n", result, "\n")
 
     mood_result = weather_mood(result)
+
+    # getting the name of the weather in the location
+    weather_in_loc = result['weather'][0]['main']
     
     #print("Mood Result:\n", mood_result, "\n")
   
@@ -178,7 +181,8 @@ def latlongFromWeatherAPI():
     # JSON-ified response
     result = {
         'location': param,
-        'mood': mood_list
+        'mood': mood_list,
+        'weather': weather_in_loc,
     }
 
     # Logging
@@ -208,7 +212,7 @@ def get_weather_data(latitude, longitude, api_key):
 
 
 def get_completion(prompt, model="gpt-3.5-turbo"):
-  client = OpenAI(api_key="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")
+  client = OpenAI(api_key=openai_app.api_key)
   response= client.chat.completions.create(
     model=model,
     messages=[

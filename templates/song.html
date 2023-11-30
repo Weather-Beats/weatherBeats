@@ -119,7 +119,7 @@
         // if location parameter exists, fetch the mood and song data
         if (location_param) {
 
-            fetch('/moodFromWeatherAPI?location=' + location_param)
+            fetch('/latlongFromWeatherAPI?location=' + location_param)
             .then(
                 function(resp) {
                     return resp.json();
@@ -185,4 +185,3 @@
 
 </body>
 </html>
-

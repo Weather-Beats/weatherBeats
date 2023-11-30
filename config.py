@@ -1,4 +1,3 @@
-
 # import relevant libraries
 import os
 import ssl
@@ -133,9 +132,18 @@ class FlaskSetup:
 
         return app
 
+class WeatherAPI:
+    def __init__(self):
+        self.api_key = os.getenv('WEATHER_API_KEY')
+
+class OpenAIAPI:
+    def __init__(self):
+        self.api_key = os.getenv('OPENAI_API_KEY')
+
 
 # Instantiate the classes
 db = SQLServer()
 flask_app = FlaskSetup()
 app = flask_app.connect()
-
+weather_app = WeatherAPI()
+openai_app = OpenAIAPI()
