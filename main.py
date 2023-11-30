@@ -1,7 +1,13 @@
+# Laura's Branch
 
 # Importing custom modules and libraries
 from config import db, flask_app, app
 from flask import render_template, request, jsonify
+import requests
+from openai import OpenAI
+import json
+
+
 
 # renders the homepage for the website
 @app.route("/", methods=["GET"])
@@ -124,6 +130,144 @@ def songsFromMood():
     }
 
     return jsonify(result)
+
+# Route to get the lat and long of the location provided by the user
+@app.route("/latlongFromWeatherAPI", methods=["GET"])
+def latlongFromWeatherAPI():
+    """
+    Returns the lat and long of the location provided by the user
+    """
+
+    # SQL Variables
+    table_name = 'weatherBeats_locations'
+
+    # Get location from query
+    param = str(request.args.get('location'))
+    #print("\nCity: ", param)
+
+    # Check if location was provided
+    if (len(param) == 0):
+        return jsonify({'error': 'No location provided'})
+
+    # Get weather data from API
+    sql = f'''
+
+            SELECT latitude, longtitude FROM {table_name}
+            WHERE cityname = "{param}"
+
+        '''
+
+    # Query the database
+    query_resp = db.query(sql)
+    #print("Data:\n", query_resp, "\n")
+
+    result = get_weather_data(query_resp[0]["latitude"],
+                              query_resp[0]["longtitude"],
+                              "9de1352a008a66576f168d7bb8e1b7dc")
+
+    #print("Result:\n", result, "\n")
+
+    mood_result = weather_mood(result)
+    
+    #print("Mood Result:\n", mood_result, "\n")
+  
+    mood_list=[]
+    for mood in mood_result["mood"]:
+      mood_list.append(mood)
+
+    # JSON-ified response
+    result = {
+        'location': param,
+        'mood': mood_list
+    }
+
+    # Logging
+    print("Final Result:\n", result, "\n")
+
+    return jsonify(result)
+
+
+
+def get_weather_data(latitude, longitude, api_key):
+  # API endpoint URL
+  api_url = f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&lon={longitude}&appid={api_key}"
+
+  # Make the API request
+  response = requests.get(api_url)
+
+  # Check if the request was successful (status code 200)
+  if response.status_code == 200:
+      # Parse the JSON data in the response
+      weather_data = response.json()
+      return weather_data
+  else:
+      # Print an error message if the request was not successful
+      print(f"Error: Unable to fetch data. Status code: {response.status_code}")
+      return None
+
+
+
+def get_completion(prompt, model="gpt-3.5-turbo"):
+  client = OpenAI(api_key="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")
+  response= client.chat.completions.create(
+    model=model,
+    messages=[
+      {"role": "system", "content": "Given these weather informations, provide the associated mood. Assign 2-3 moods based on the moods list. Return and object with JSON format with name, description, temperature, humidity, clouds, wind_speed, humidity and mood as a field."},
+      {"role": "user", "content": prompt}
+    ],
+  )
+
+  return response.choices[0].message.content
+
+def weather_mood(weather):
+  '''
+  This function takes as input a JSON object that has the same structure
+  as an article coming back from NewsAPI and returns back the results
+  from ChatGPT.
+  '''
+
+  name = weather['weather'][0]['main']
+  description = weather['weather'][0]['description']
+  temperature = weather['main']['temp']
+  clouds = weather['clouds']
+  winds = weather['wind']['speed']
+  humidity = weather['main']['humidity']
+  moods = [
+    'Joyful',
+    'Calm',
+    'Energetic',
+    'Contemplative',
+    'Melancholic',
+    'Startled',
+    'Relaxed',
+    'Content',
+    'Mysterious',
+    'Refreshed',
+    'Invigorated',
+    'Tranquil',
+    'Exotic',
+    'Sad',
+    'Dispirited',
+    'Anxious',
+    'Gloomy',
+    'Dreary',
+    'Stormy',
+    'Restless',
+    'Depressed',
+    'Tense',
+    'Moody',
+    'Sorrowful',
+    'Worried',
+]
+
+# This list now consists of an equal amount of positive and negative/sad moods with a total of 26 elements.
+
+  prompt = f'''Weather information: name: {name} --  description: {description} -- temp: {temperature} -- clouds: {clouds} -- wind: {winds} -- humidity{humidity} --moods: {moods}
+  '''
+
+  response = get_completion(prompt)
+  data = json.loads(response)
+  return data
 
 
 
