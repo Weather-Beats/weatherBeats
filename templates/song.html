@@ -30,11 +30,25 @@
         
         <!-- Header -->
         <div class="hero-container header mt-5">
-            <div class="mood-image">
-                <img src="../static/images/placeholder-image.png" alt="logo">
+            <div>
+                <div class="mood-image">
+                    <img src="../static/images/placeholder-image.png" alt="logo">
+                </div>
+                <div class="mood-content">
+                    <h1>Location Mood</h1>
+                </div>
+                <div class="weather-in-loc">
+                    <h3>Weather in Location</h3>
+                </div>
             </div>
-            <div class="mood-content">
-                <h1>Location Mood</h1>
+
+            <div class="map-container">
+                <div class="map-loc">
+                    <h1>Location</h1>
+                </div>
+                <div class="map mood-image">
+                    <img src="../static/images/placeholder-image.png" alt="map-with-location">
+                </div>
             </div>
 
         </div>
@@ -119,7 +133,7 @@
         // if location parameter exists, fetch the mood and song data
         if (location_param) {
 
-            fetch('/moodFromWeatherAPI?location=' + location_param)
+            fetch('/latlongFromWeatherAPI?location=' + location_param)
             .then(
                 function(resp) {
                     return resp.json();
@@ -139,8 +153,14 @@
 
                     let mood = data['mood'];
                     
-                    let mood_header = document.querySelector('.mood-content h1');
+                    const mood_header = document.querySelector('.mood-content h1');
                     mood_header.textContent = mood.join(', ');
+
+                    const weather_in_loc = document.querySelector('.weather-in-loc h3');
+                    weather_in_loc.textContent = data['weather'];
+
+                    const map_loc = document.querySelector('.map-loc h1');
+                    map_loc.textContent = location_param;
 
                     // list of mood to a string
                     mood = mood.join(' ');
@@ -185,4 +205,3 @@
 
 </body>
 </html>
-
