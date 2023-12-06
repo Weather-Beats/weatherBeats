@@ -6,7 +6,8 @@ import requests
 from openai import OpenAI
 import json
 
-
+# Default mood
+DEFAULT_MOOD = 'Moody'
 
 # renders the homepage for the website
 @app.route("/", methods=["GET"])
@@ -175,8 +176,11 @@ def latlongFromWeatherAPI():
     #print("Mood Result:\n", mood_result, "\n")
   
     mood_list=[]
-    for mood in mood_result["mood"]:
-      mood_list.append(mood)
+    try:
+      for mood in mood_result["mood"]:
+        mood_list.append(mood)
+    except:
+        mood_list.append(DEFAULT_MOOD)
 
     # JSON-ified response
     result = {
@@ -216,7 +220,7 @@ def get_completion(prompt, model="gpt-3.5-turbo"):
   response= client.chat.completions.create(
     model=model,
     messages=[
-      {"role": "system", "content": "Given these weather informations, provide the associated mood. Assign 2-3 moods based on the moods list. Return and object with JSON format with name, description, temperature, humidity, clouds, wind_speed, humidity and mood as a field."},
+      {"role": "system", "content": "Given these weather informations, provide the associated mood. Assign 2-3 moods based on the moods list. Return an object with JSON format with name, description, temperature, humidity, clouds, wind_speed, humidity and mood as a field."},
       {"role": "user", "content": prompt}
     ],
   )

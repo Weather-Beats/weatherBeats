@@ -6,6 +6,11 @@ body {
     width: 100%;
 }
 
+.image {
+  height: 200px;
+  width: 200px;
+  background-color: red;
+}
 .container{
     font-family: 'AvenirNext-Medium';
 }
@@ -24,8 +29,6 @@ body {
 
 /* Tengis Stylings */
 body {
-    background: linear-gradient(to bottom, rgb(235, 233, 233), rgb(145, 142, 142));
-    background-repeat: no-repeat;
     color: #000; /* Black text */
 }
 .container {
@@ -58,33 +61,43 @@ body {
 /* Hero of the Page */
 .hero-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
 
     margin: 0 auto;
-    padding: 20px;
+    padding: 2rem;
     padding-bottom: 40px;
 
-    mix-blend-mode: color-burn;
     background-color: #d2d2d2;
-    min-height: fit-content;
+/*     min-height: fit-content; */
 
     align-items: center;
-    width: 80%;
+    width: fit-content;
+}
+.mood-container {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
 }
 .mood-image {
-    width: 50%;
     height: auto;
 }
 .mood-image img {
-    width: 70%;
+    width: 50%;
     height: auto;
 
     border-radius: 5px;
-
-    filter: drop-shadow(12px 12px 5px);
 }
 .mood-content {
-    text-align: start;
+    text-align: center;
+}
+
+.map-container {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .content {
@@ -95,31 +108,39 @@ body {
 .expandable-list-item {
     cursor: pointer;
     border-radius: 5px;
-    height: 280px;
-    width: 330px;
+    height: 10rem;
+    width: 20rem;
 
-    padding: 0 10px;
+    padding: 1rem 2rem;
 
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 
     color: black; /* Text color for content within cells */
-    background-color: #8dc8e4 ;
-    font-size: 18px;
+    background-color: #b6e3f8 ;
+    border: #000 1px solid;
+
+    text-align: left;
+
+    position: relative;
 }
 .song-info h3 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 22px; /* Adjust the font size as needed */
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 20px;
     padding: 0;
-
 }
 .song-info h4 {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 18px; /* Adjust the font size as needed */
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: medium;
+    font-weight: normal;
     padding: 0;
 }
+.song-info h4 span {
+    font-weight: bold;
+}
 .uri {
+    font-size: 1rem;
     display: none;
 }
 .content-list {

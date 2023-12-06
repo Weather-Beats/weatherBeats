@@ -30,9 +30,14 @@
         
         <!-- Header -->
         <div class="hero-container header mt-5">
-            <div>
+            <div id="loading-content">
+                Loading Content...
+                <div class="spinner-border text-primary" role="status"></div>
+            </div>
+
+            <div class="mood-container">
                 <div class="mood-image">
-                    <img src="../static/images/placeholder-image.png" alt="logo">
+                    <img src="../static/images/placeholder-image.png" alt="mood-cover-poster">
                 </div>
                 <div class="mood-content">
                     <h1>Location Mood</h1>
@@ -50,8 +55,8 @@
                     <img src="../static/images/placeholder-image.png" alt="map-with-location">
                 </div>
             </div>
-
         </div>
+
         <div id="playlist-title">
             <p>YOUR PLAYLIST</p>
         </div>
@@ -80,7 +85,7 @@
             
             // Song Title as H1
             let songTitle = document.createElement('h3');
-            songTitle.innerHTML = '<span>Title:</span> ' + song.song_name;
+            songTitle.innerHTML = song.song_name;
             songInfoDiv.appendChild(songTitle);
 
             // Song Artist, Genre, Moods as P
@@ -141,15 +146,6 @@
             )
             .then (
                 function(data) {
-                    // console.log(data);
-
-                    // let mood_list = data['mood'];
-
-                    // for (let mood of mood_list) {
-                    //     let mood_item = document.createElement('li');
-                    //     mood_item.textContent = mood.mood;
-                    //     document.querySelector('.content-list').appendChild(mood_item);
-                    // }
 
                     let mood = data['mood'];
                     
@@ -162,10 +158,24 @@
                     const map_loc = document.querySelector('.map-loc h1');
                     map_loc.textContent = location_param;
 
+                    // change the placeholder image to the cover poster for the mood
+                    const mood_image = document.querySelector('.mood-image img');
+                    const filename = data['mood'][0].toLowerCase() + '.jpeg'; // takes the first mood for any given weather / location
+                    mood_image.src = '../static/images/mood-cover/' + filename;
+
                     // list of mood to a string
                     mood = mood.join(' ');
 
                     console.log(mood);
+
+                    // make the component visible
+                    document.querySelector('#loading-content').remove();
+
+                    const mood_container = document.querySelector('.mood-container');
+                    mood_container.style.display = 'flex';
+
+                    const map_container = document.querySelector('.map-container');
+                    map_container.style.display = 'flex';
 
                     fetch('/songsFromMoodAPI?moods=' + mood.trim())
                     .then(
