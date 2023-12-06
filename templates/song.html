@@ -108,6 +108,7 @@
 
             let spotifyLink = document.createElement('a');
             spotifyLink.href = song.uri;
+            spotifyLink.target = '_blank';
             spotifyLink.textContent = 'Listen on Spotify';
             uriDiv.appendChild(spotifyLink);
             uriDiv.style.display = 'none';

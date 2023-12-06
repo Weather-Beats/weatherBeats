@@ -1,13 +1,11 @@
 
 # Importing custom modules and libraries
 from config import db, flask_app, app, weather_app, openai_app
+from utils.defaults import DEFAULT_MOOD, DB_MOOD_FROM_WEATHER, DB_SONGS_FROM_MOOD, DB_SPOTIFY_LYRICS, DB_LOCATIONS
 from flask import render_template, request, jsonify
 import requests
 from openai import OpenAI
 import json
-
-# Default mood
-DEFAULT_MOOD = 'Moody'
 
 # renders the homepage for the website
 @app.route("/", methods=["GET"])
@@ -39,7 +37,7 @@ def moodFromWeatherAPI():
     """
     
     # SQL Variables
-    table_name = 'weatherBeats_weather_w_location'
+    table_name = DB_MOOD_FROM_WEATHER
 
     # Get location from query
     param = str(request.args.get('location'))
@@ -86,9 +84,9 @@ def songsFromMood():
     """
 
     # SQL Variables
-    table_name = 'weatherBeats_songToMood'
+    table_name = DB_SONGS_FROM_MOOD
 
-    lyrics_table_name = 'weatherBeats_spotify_lyrics_url'
+    lyrics_table_name = DB_SPOTIFY_LYRICS
 
     mood_list = request.args.get('moods').split(' ')
     if len(mood_list) > 1:
@@ -102,7 +100,7 @@ def songsFromMood():
     
     # Get songs from API
     sql = f'''
-            SELECT s.song_name, s.artist_name, s.genre, m.lyrics, m.uri,
+            SELECT s.song_name, s.artist_name, s.genre, m.lyrics, m.url AS uri,
                     a.moods AS moods
             FROM {table_name} s
             JOIN
@@ -120,7 +118,7 @@ def songsFromMood():
                 s.song_name = a.song_name AND s.artist_name = a.artist_name
             JOIN {lyrics_table_name} m ON s.song_name = m.song_name AND s.artist_name = m.artist_name
             WHERE s.mood IN {param}
-            GROUP BY s.song_name, s.artist_name, s.genre, m.lyrics, m.uri
+            GROUP BY s.song_name, s.artist_name, s.genre, m.lyrics, uri
             '''   
     
     query_resp = db.query(sql)
@@ -140,7 +138,7 @@ def latlongFromWeatherAPI():
 
     # SQL Variables
     # This table has cityname, and their latitude and longitude
-    table_name = 'weatherBeats_locations'
+    table_name = DB_LOCATIONS
 
     # Get location from query
     param = str(request.args.get('location'))
