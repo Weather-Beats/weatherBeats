@@ -28,6 +28,18 @@ def moodViz():
     # JSON-ified response
     return jsonify(results)
 
+# location map
+@app.route('/locationVizAPI',  methods=['GET'])
+def locationViz():
+    lat = str(request.args.get('lat'))
+    long = str(request.args.get('long'))
+
+    # the image is pre-generated and stored in the config.py file
+    results = db.get_location_image(lat, long)
+
+    # JSON-ified response
+    return jsonify(results)
+
 
 # Route to get the mood of the location provided by the user
 @app.route("/moodFromWeatherAPI", methods=["GET"])
@@ -183,6 +195,8 @@ def latlongFromWeatherAPI():
     # JSON-ified response
     result = {
         'location': param,
+        'lat': query_resp[0]["latitude"],
+        'long': query_resp[0]["longtitude"],
         'mood': mood_list,
         'weather': weather_in_loc,
     }

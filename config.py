@@ -14,6 +14,8 @@ import seaborn as sns
 import base64
 from io import BytesIO
 
+import requests
+
 # Refer to envschema.txt for the environment variables
 load_dotenv()
 
@@ -90,6 +92,23 @@ class SQLServer:
 
         # Response - as dictionary
         results = {"image": data}
+
+        return results
+
+    def get_location_image(self, lat, long):
+        url = f"""
+            https://maps.googleapis.com/maps/api/staticmap?center={lat},{long}&zoom=4&size=700x700&maptype=roadmap&markers=color:red%7Clabel:C%7C{lat},{long}&key={os.getenv("GOOGLE_MAPS_API_KEY")}
+            """
+        
+        # Get the image from the url
+        response = requests.get(url)
+        image = response.content
+
+        # Encode the image
+        encoded_image = base64.b64encode(image).decode("ascii")
+
+        # Response - as dictionary
+        results = {"image": encoded_image}
 
         return results
 

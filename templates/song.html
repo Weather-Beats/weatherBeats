@@ -48,11 +48,11 @@
             </div>
 
             <div class="map-container">
-                <div class="map-loc">
-                    <h1>Location</h1>
-                </div>
                 <div class="map mood-image">
                     <img src="../static/images/placeholder-image.png" alt="map-with-location">
+                </div>
+                <div class="map-loc">
+                    <h1>Location</h1>
                 </div>
             </div>
         </div>
@@ -177,6 +177,38 @@
 
                     const map_container = document.querySelector('.map-container');
                     map_container.style.display = 'flex';
+
+
+                    // get the latitude and longitude of the location
+                    const lat = data['lat'];
+                    const long = data['long'];
+
+                    fetch('/locationVizAPI?lat=' + lat + '&long=' + long)
+                    .then(
+                        function(resp) {
+                            console.log('fetching location viz')
+                            return resp.json();
+                        }
+                    )
+                    .then (
+                        function(data) {
+                            const map_image = document.querySelector('.map img');
+                            map_image.src = 'data:image/png;base64,' + data.image;
+                        }
+                    )
+
+                    // // get the google api key from backend
+                    // const google_api_key = data['google_api_key'];
+
+                    // // get the map image from the API
+                    // const map_image = document.querySelector('.map img');
+                    // map_image.src = 'https://maps.googleapis.com/maps/api/staticmap?center=' + 
+                    //                     lat + ',' + 
+                    //                     lon + 
+                    //                     '&zoom=4&size=500x500&maptype=roadmap&markers=color:red%7Clabel:C%7C' +
+                    //                     lat + ',' + lon + `&key=${google_api_key}`;
+
+                    
 
                     fetch('/songsFromMoodAPI?moods=' + mood.trim())
                     .then(
