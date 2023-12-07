@@ -6,6 +6,7 @@ from flask import render_template, request, jsonify
 import requests
 from openai import OpenAI
 import json
+import folium
 
 # renders the homepage for the website
 @app.route("/", methods=["GET"])
@@ -288,6 +289,34 @@ def weather_mood(weather):
   response = get_completion(prompt)
   data = json.loads(response)
   return data
+
+
+@app.route("/map", methods=["GET"])
+def interactivemap():
+
+    table_name = DB_LOCATIONS
+    
+    param = str(request.args.get('location'))
+
+
+    sql = f'''
+
+            SELECT latitude, longtitude FROM {table_name}
+            WHERE cityname = "{param}"
+
+        '''
+
+    # Query the database
+    query_resp = db.query(sql)
+
+    lat = float(query_resp[0]["latitude"])
+    lon = float(query_resp[0]["longtitude"])
+
+    print(query_resp)
+
+    fmap = folium.Map(location=[lat, lon], zoom_start=12, tiles='OpenStreetMap')
+
+    return fmap._repr_html_()
 
 
 
