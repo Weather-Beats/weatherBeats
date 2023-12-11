@@ -1,0 +1,175 @@
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+    padding: 20px;
+
+}
+
+.home-button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 10px 20px;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.home-button:hover {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+}
+
+.mood-description {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.mood-container-main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.mood-container {
+    width: 300px;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.joyful {
+    background-color: #ffd700; /* Gold */
+    color: #333;
+}
+
+.calm {
+    background-color: #add8e6; /* Light Blue */
+    color: #333;
+}
+
+.energetic {
+    background-color: #ff6347; /* Tomato */
+    color: #fff;
+}
+
+.contemplative {
+    background-color: #b0c4de; /* Light Steel Blue */
+    color: #333;
+}
+
+.melancholic {
+    background-color: #808080; /* Gray */
+    color: #fff;
+}
+
+.startled {
+    background-color: #ffa500; /* Orange */
+    color: #333;
+}
+
+.relaxed {
+    background-color: #90ee90; /* Light Green */
+    color: #333;
+}
+
+.content {
+    background-color: #ffff00; /* Yellow */
+    color: #333;
+}
+
+.mysterious {
+    background-color: #9400d3; /* Dark Violet */
+    color: #fff;
+}
+
+.refreshed {
+    background-color: #00ff00; /* Lime */
+    color: #333;
+}
+
+.invigorated {
+    background-color: #ff4500; /* Orange Red */
+    color: #fff;
+}
+
+.tranquil {
+    background-color: #00ced1; /* Dark Turquoise */
+    color: #333;
+}
+
+.exotic {
+    background-color: #8a2be2; /* Blue Violet */
+    color: #fff;
+}
+
+.sad {
+    background-color: #4682b4; /* Steel Blue */
+    color: #fff;
+}
+
+.dispirited {
+    background-color: #696969; /* Dim Gray */
+    color: #fff;
+}
+
+.anxious {
+    background-color: #8b0000; /* Dark Red */
+    color: #fff;
+}
+
+.gloomy {
+    background-color: #2f4f4f; /* Dark Slate Gray */
+    color: #fff;
+}
+
+.dreary {
+    background-color: #a9a9a9; /* Dark Gray */
+    color: #fff;
+}
+
+.stormy {
+    background-color: #708090; /* Slate Gray */
+    color: #fff;
+}
+
+.restless {
+    background-color: #32cd32; /* Lime Green */
+    color: #333;
+}
+
+.depressed {
+    background-color: #800000; /* Maroon */
+    color: #fff;
+}
+
+.tense {
+    background-color: #ff8c00; /* Dark Orange */
+    color: #fff;
+}
+
+.moody {
+    background-color: #800080; /* Purple */
+    color: #fff;
+}
+
+.sorrowful {
+    background-color: #000080; /* Navy */
+    color: #fff;
+}
+
+.worried {
+    background-color: #556b2f; /* Dark Olive Green */
+    color: #fff;
+}

@@ -39,9 +39,13 @@
                 <div class="mood-image">
                     <img src="../static/images/placeholder-image.png" alt="mood-cover-poster">
                 </div>
-                <div class="mood-content">
-                    <h1>Location Mood</h1>
-                </div>
+
+                <a href="moods.html">
+                    <div class="mood-content">
+                        <h1>Location Mood</h1>
+                    </div>
+                </a>
+
                 <div class="weather-in-loc">
                     <h3>Weather in Location</h3>
                 </div>
@@ -154,6 +158,9 @@
                     
                     const mood_header = document.querySelector('.mood-content h1');
                     mood_header.textContent = mood.join(', ');
+                    
+                    const link_ = mood_header.closest('a');
+                    link_.href = '/moods.html#' + mood[0].toLowerCase();
 
                     const weather_in_loc = document.querySelector('.weather-in-loc h3');
                     weather_in_loc.textContent = data['weather'];

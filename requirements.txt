@@ -1,6 +1,7 @@
 annotated-types==0.6.0
 anyio==4.1.0
 blinker==1.7.0
+branca==0.7.0
 certifi==2023.11.17
 charset-normalizer==3.3.2
 click==8.1.7
@@ -9,6 +10,7 @@ cycler==0.12.1
 distro==1.8.0
 exceptiongroup==1.2.0
 Flask==3.0.0
+folium==0.15.1
 fonttools==4.44.0
 h11==0.14.0
 httpcore==1.0.2
@@ -43,3 +45,4 @@ typing_extensions==4.8.0
 tzdata==2023.3
 urllib3==2.1.0
 Werkzeug==3.0.1
+xyzservices==2023.10.1

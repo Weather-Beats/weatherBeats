@@ -13,6 +13,10 @@ import folium
 def home():
     return render_template("index.html")
 
+# renders the moods page for the website
+@app.route("/moods.html", methods=["GET"])
+def moods():
+    return render_template("moods.html")
 
 # render the list of songs after the user has selected a location and the mood is extracted
 @app.route("/song.html", methods=["GET"])
@@ -315,6 +319,15 @@ def interactivemap():
     print(query_resp)
 
     fmap = folium.Map(location=[lat, lon], zoom_start=12, tiles='OpenStreetMap')
+
+    # Add marker for the location
+    folium.CircleMarker(location=[lat, lon],
+                        radius = 10.0, color='red', 
+                        weight=0.8,
+                        fill=True,
+                        fill_opacity = 0.9,
+                        fill_color = 'purple',
+                       ).add_to(fmap)
 
     return fmap._repr_html_()
 
