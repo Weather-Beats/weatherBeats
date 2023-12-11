@@ -49,7 +49,9 @@
 
             <div class="map-container">
                 <div class="map mood-image">
-                    <img src="../static/images/placeholder-image.png" alt="map-with-location">
+                    <iframe id="map" title="dynamic-map" width="500" height="400">
+                    </iframe>
+
                 </div>
                 <div class="map-loc">
                     <h1>Location</h1>
@@ -243,6 +245,17 @@
             )
 
         }
+
+        function updateMap() {
+            // Get the iframe element
+            var iframe = document.getElementById("map");
+
+            // Update the iframe src with the backend endpoint and location parameter
+            iframe.src = "/map?location=" + encodeURIComponent(location_param);
+        }
+
+        // Call updateMap function with desired location
+        updateMap();
 
     </script>
 
