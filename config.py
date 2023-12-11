@@ -139,15 +139,15 @@ class FlaskSetup:
     # Connect to ngrok
     def connect(self):
         app = Flask(__name__, template_folder=self.directory)
-        public_url = ngrok.connect(self.port).public_url
-        app.config["BASE_URL"] = public_url
+        # public_url = ngrok.connect(self.port).public_url
+        # app.config["BASE_URL"] = public_url
         
         # Make it more visible
-        print("\n\n")
-        print("-"*90)
-        print(f" NGROK TUNNEL:  '{public_url}'-> 'http://127.0.0.1:{self.port}'")
-        print("-"*90)
-        print("\n\n")
+        # print("\n\n")
+        # print("-"*90)
+        # print(f" NGROK TUNNEL:  '{public_url}'-> 'http://127.0.0.1:{self.port}'")
+        # print("-"*90)
+        # print("\n\n")
 
         return app
 
