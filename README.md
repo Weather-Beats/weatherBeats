@@ -7,7 +7,7 @@ This is a web application that allows users to search for a city and get the cur
 <!-- Write me a description of the pipeline -->
 The user enters a city name and clicks the search button. The city name is sent to the server and the server makes a request to the OpenWeatherMap API to get the current weather. The server then makes a request to the Spotify API to get a playlist based on the weather. The server then sends the weather and playlist to the client. The client then displays the weather and playlist to the user.
 
-However, the current pipeline uses a database with all the required data instead of making requests to the APIs. The server makes a request to the database to get the weather and playlist. The server then sends the weather and playlist to the client. The client then displays the weather and playlist to the user.
+However, the current pipeline uses a database for the Spotify music data. The server makes a request to the database to get the playlist. The server then sends the playlist to the client. The client then displays the weather and playlist to the user. The weather data and weather to mood mapping is all done through API.
 
 ## Motivation
 We created this project to help users find music based on the weather. We wanted to create a fun and interactive way for users to find music that fits their mood.
@@ -42,6 +42,9 @@ DB_HOST='yourDBhost'
 
 FLASK_PORT=5000
 NGROK_AUTH_TOKEN='yourtoken'
+
+OPENAI_API_KEY=
+WEATHER_API_KEY=
 ```
 
 Run the following script in terminal:
