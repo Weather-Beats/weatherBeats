@@ -43,8 +43,8 @@ DB_HOST='yourDBhost'
 FLASK_PORT=5000
 NGROK_AUTH_TOKEN='yourtoken'
 
-OPENAI_API_KEY=
-WEATHER_API_KEY=
+OPENAI_API_KEY='yourOpenAIAPI'
+WEATHER_API_KEY='yourOpenWeatherAPI'
 ```
 
 Run the following script in terminal:
@@ -55,7 +55,11 @@ This will start the server on port `you specified`. Open a browser and go to loc
 
 ## Usage
 <!-- How to use the project -->
-To use this project, type in a city name and click the search button. The current weather will be displayed along with a playlist based on the weather.
+- To use the app, type in just a city name (eg. `New York`, `Chicago`, `Seattle`).
+- If you check the checkbox for `Enable ML Model (Disable ChatGPT API)`, it will enable Machine Learning trained table in the database. 
+- Keeping it unchecked uses ChatGPT trained table in the database.  
+- Click the `Submit` button. 
+- The current weather will be displayed along with a playlist based on the weather.
 
 ## Credits
 <!-- List your collaborators, if any, with links to their GitHub profiles. Links to websites or resources. -->

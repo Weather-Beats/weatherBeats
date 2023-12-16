@@ -40,12 +40,15 @@
 
             <!-- Form -->
             <form method = 'GET' action = 'song.html'>
+                
+                <div class="checkbox-container">
+                    <label for="enableML" class="checkbox-label">Enable ML Model (Disable ChatGPT API): </label>
+                    <input type='checkbox' name='enableML' id='enableML' value="on">
+                </div>
 
                 <label for = ''>  </label>
                 <input type = 'text' name = 'location' value = '' placeholder = 'Enter a city name'>
-            
                 <input type = 'submit' value = 'Submit'>
-                
             </form>
 
             <!-- Placeholder for visualization -->
@@ -57,7 +60,13 @@
                   <div class="spinner-border text-primary" role="status"></div>
                 </div>
                 <img id="viz_placeholder" class="center-block" />
-              </div>
+            </div>
+            
+            <!-- Data Visualization Page -->
+            <div class="data-visualization-section">
+                <p>Explore more data visualizations here:</p>
+                <a href="./dataviz.html" class="btn btn-primary explore-button">Go to Data Visualization</a>
+            </div>
             
         </div>
     </div>
@@ -69,7 +78,7 @@
     </div>
 
     <!-- This script fetches an image for visualization and replaces the placeholder div -->
-    <script>
+    <script>   
         fetch("/moodVizAPI")
             .then(function(response) {
                 return response.json();
