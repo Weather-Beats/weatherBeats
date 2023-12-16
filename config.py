@@ -84,7 +84,10 @@ class SQLServer:
         ax.set_ylabel("Count", fontsize=19)
         ax.set_xlabel("Number of Songs", fontsize=19)
         ax.tick_params(axis='both', labelsize=16)
-
+        
+        # Title
+        ax.set_title("Top 10 Moods", fontsize=24)
+        
         # Save the plot as an image
         buf = BytesIO()
         plt.savefig(buf, format="png")

@@ -145,7 +145,15 @@
         // if location parameter exists, fetch the mood and song data
         if (location_param) {
 
-            fetch('/latlongFromWeatherAPI?location=' + location_param)
+            const enableMlBool = (urlParams.get('enableML'));
+
+            // logging
+            console.log("enableMLBool: ", enableMlBool);
+
+            // setup API endpoint based on whether ML is enabled or not
+            const apiEndpoint = (enableMlBool === 'on') ? `latlongFromWeatherAPI?enableML=${enableMlBool}&location=${location_param}` : `latlongFromWeatherAPI?location=${location_param}`;
+
+            fetch(apiEndpoint)
             .then(
                 function(resp) {
                     return resp.json();
@@ -217,9 +225,11 @@
                     //                     '&zoom=4&size=500x500&maptype=roadmap&markers=color:red%7Clabel:C%7C' +
                     //                     lat + ',' + lon + `&key=${google_api_key}`;
 
-                    
+                    // logging 
+                    console.log("enableMLBool (x2) ", enableMlBool);
+                    const mlAPIEndpoint = (enableMlBool === 'on') ? `/songsFromMoodAPI?enableML=${enableMlBool}&moods=` + mood.trim() : '/songsFromMoodAPI?moods=' + mood.trim();
 
-                    fetch('/songsFromMoodAPI?moods=' + mood.trim())
+                    fetch(mlAPIEndpoint)
                     .then(
                         function(resp) {
                             return resp.json();

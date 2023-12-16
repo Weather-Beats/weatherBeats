@@ -1,7 +1,7 @@
 
 # Importing custom modules and libraries
 from config import db, flask_app, app, weather_app, openai_app
-from utils.defaults import DEFAULT_MOOD, DB_MOOD_FROM_WEATHER, DB_SONGS_FROM_MOOD, DB_SPOTIFY_LYRICS, DB_LOCATIONS
+from utils.defaults import DEFAULT_MOOD, DB_MOOD_FROM_WEATHER, DB_SONGS_FROM_MOOD, DB_SPOTIFY_LYRICS, DB_LOCATIONS, DB_SONGS_FROM_MOOD_ML, DB_SONGS_15k
 from flask import render_template, request, jsonify
 import requests
 from openai import OpenAI
@@ -23,6 +23,10 @@ def moods():
 def song():
     return render_template("song.html")
 
+# renders the 'visualizations' page for the website
+@app.route("/dataviz.html", methods=["GET"])
+def visualizations():
+    return render_template("visualizations.html")
 
 # plot the number of songs with a particular mood
 @app.route('/moodVizAPI',  methods=['GET'])
@@ -102,9 +106,19 @@ def songsFromMood():
 
     # SQL Variables
     table_name = DB_SONGS_FROM_MOOD
-
     lyrics_table_name = DB_SPOTIFY_LYRICS
 
+    # Get checkbox value from query
+    enableML = str(request.args.get('enableML'))
+    print("Enable ML (songsFromMoodAPI) ", enableML)
+
+    # Based on the checkbox value, we will use the ML table or the non-ML table
+    if enableML == 'on':
+        print("\nUsing ML table\n")
+        table_name = DB_SONGS_FROM_MOOD_ML
+        lyrics_table_name = DB_SONGS_15k
+
+    # Get mood from query
     mood_list = request.args.get('moods').split(' ')
     if len(mood_list) > 1:
         param = tuple(mood_list)
@@ -115,8 +129,13 @@ def songsFromMood():
     if (len(param) == 0):
         return jsonify({'error': 'No mood provided'})
     
+    # LOGGING
+    print("\n\nTable Used; ", table_name)
+    print("\n\nLyrics Table Used; ", lyrics_table_name)
+    print("\n\n")
+
     # Get songs from API
-    sql = f'''
+    sql_nonml = f'''
             SELECT s.song_name, s.artist_name, s.genre, m.lyrics, m.url AS uri,
                     a.moods AS moods
             FROM {table_name} s
@@ -136,8 +155,38 @@ def songsFromMood():
             JOIN {lyrics_table_name} m ON s.song_name = m.song_name AND s.artist_name = m.artist_name
             WHERE s.mood IN {param}
             GROUP BY s.song_name, s.artist_name, s.genre, m.lyrics, uri
+            '''
+
+    sql_ml = f'''
+            SELECT s.song_name, s.artist_name, s.genre, m.url AS uri,
+                    a.moods AS moods
+            FROM {table_name} s
+            JOIN
+                (
+                    SELECT
+                        song_name,
+                        artist_name,
+                        GROUP_CONCAT(DISTINCT mood, '') AS moods
+                    FROM
+                        {table_name}
+                    GROUP BY
+                        song_name, artist_name
+                ) a
+            ON
+                s.song_name = a.song_name AND s.artist_name = a.artist_name
+            JOIN {lyrics_table_name} m ON s.song_name = m.song_name AND s.artist_name = m.artist_name
+            WHERE s.mood IN {param}
+            GROUP BY s.song_name, s.artist_name, s.genre, uri
             '''   
     
+    # If ML is enabled, use the ML query
+    if enableML == 'on':
+        print("\nUsing ML query\n")
+        sql = sql_ml
+    else:
+        print("\nUsing non-ML query\n")
+        sql = sql_nonml
+
     query_resp = db.query(sql)
 
     result = {
@@ -159,7 +208,9 @@ def latlongFromWeatherAPI():
 
     # Get location from query
     param = str(request.args.get('location'))
-    #print("\nCity: ", param)
+    enableML = str(request.args.get('enableML'))
+    # print("\nCity: ", param)
+    # print("\nEnable ML: ", enableML)
 
     # Check if location was provided
     if (len(param) == 0):
@@ -175,20 +226,21 @@ def latlongFromWeatherAPI():
 
     # Query the database
     query_resp = db.query(sql)
-    #print("Data:\n", query_resp, "\n")
+    print("Data:\n", query_resp, "\n")
 
     result = get_weather_data(query_resp[0]["latitude"],
                               query_resp[0]["longtitude"],
                               weather_app.api_key)
 
-    print("Result:\n", result, "\n")
+    print("WeatherAPI Response (Result):\n", result, "\n")
+
 
     mood_result = weather_mood(result)
 
     # getting the name of the weather in the location
     weather_in_loc = result['weather'][0]['main']
     
-    #print("Mood Result:\n", mood_result, "\n")
+    print("OPENAI Response (Mood Results):\n", mood_result, "\n")
   
     mood_list=[]
     try:
